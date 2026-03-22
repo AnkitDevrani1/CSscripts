@@ -1,10 +1,40 @@
 /* Sticky Right Column - GoHighLevel Page Builder */
 /* Paste this CSS into your page's Custom CSS section */
 
-#row-6axs0KuS8z {
-  align-items: flex-start !important;
+/* Step 1: Fix overflow on GHL wrapper elements that break sticky */
+/* These are the known GHL ancestors that can have overflow:hidden */
+.hl_page-preview--content,
+.hl_wrapper--inner,
+.hl_page-creator--content,
+.hl_page-preview,
+#preview-container,
+.page-preview,
+#section-FeY5QnFb6d,
+#section-FeY5QnFb6d > .section-container {
+  overflow: visible !important;
 }
 
+/* Step 2: Parent row must use flex-start so columns have independent heights */
+#row-6axs0KuS8z {
+  align-items: flex-start !important;
+  overflow: visible !important;
+}
+
+/* Step 3: Left column should NOT constrain its height */
+#col-51bnxYTH56 {
+  overflow: visible !important;
+}
+
+/* Step 4: Make the right column sticky */
+#col-IUFN_n9lys {
+  position: sticky !important;
+  position: -webkit-sticky !important;
+  top: 20px;
+  align-self: flex-start !important;
+  overflow: visible !important;
+}
+
+/* Also try on inner-col in case GHL wraps content */
 #col-IUFN_n9lys > .inner-col {
   position: sticky !important;
   position: -webkit-sticky !important;
