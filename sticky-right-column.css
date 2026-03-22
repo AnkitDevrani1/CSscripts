@@ -1,5 +1,5 @@
 /* Sticky Right Column - GoHighLevel Page Builder */
-/* Paste this CSS into your page's Custom CSS section */
+/* Paste this into Custom CSS, replacing everything */
 
 .main-heading-group {
     display: flex !important;
@@ -7,21 +7,13 @@
     justify-content: center;
 }
 
-/* Force overflow visible on all ancestors between .bg-fixed and the column */
-#preview-container,
-#section-FeY5QnFb6d,
-#section-FeY5QnFb6d > .section-container,
-#row-6axs0KuS8z {
-    overflow: visible !important;
-}
-
-/* Parent row must align to top so columns have different heights */
-#row-6axs0KuS8z {
+/* The two-column row must align columns to the top */
+#row--FXEC6Voen > .inner {
     align-items: flex-start !important;
 }
 
-/* Make the right column sticky within the .bg-fixed scroll container */
-#col-IUFN_n9lys {
+/* Make the right column (form) sticky */
+#col-51bnxYTH56 {
     position: -webkit-sticky !important;
     position: sticky !important;
     top: 20px;
