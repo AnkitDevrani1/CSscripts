@@ -1,11 +1,11 @@
 /* Sticky Right Column - GoHighLevel Page Builder */
 /* Paste this CSS into your page's Custom CSS section */
 
-.row .col:last-child > .inner-col {
-  position: sticky;
-  top: 20px;
+#row-XMFQ5kjzW_ {
+  align-items: flex-start !important;
 }
 
-.row {
-  align-items: flex-start !important;
+#row-XMFQ5kjzW_ > .col:last-child > .inner-col {
+  position: sticky;
+  top: 20px;
 }
