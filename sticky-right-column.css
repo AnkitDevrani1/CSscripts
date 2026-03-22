@@ -7,8 +7,9 @@
     justify-content: center;
 }
 
-/* The two-column row must align columns to the top */
-#row--FXEC6Voen > .inner {
+/* row-6axs0KuS8z is the two-column row with col-IUFN_n9lys (left) and col-51bnxYTH56 (right) */
+/* Its .inner div must use flex-start so columns are NOT stretched to equal height */
+#row-6axs0KuS8z > .inner {
     align-items: flex-start !important;
 }
 
@@ -17,5 +18,4 @@
     position: -webkit-sticky !important;
     position: sticky !important;
     top: 20px;
-    align-self: flex-start !important;
 }
