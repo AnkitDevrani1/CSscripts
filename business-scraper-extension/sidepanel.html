@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Business Info Scraper</title>
+  <link rel="stylesheet" href="styles/sidepanel.css" />
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="24" height="24" rx="6" fill="#4285F4"/>
+          <path d="M12 6C9.24 6 7 8.24 7 11c0 3.75 5 9 5 9s5-5.25 5-9c0-2.76-2.24-5-5-5zm0 7.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 8.5 12 8.5s2.5 1.12 2.5 2.5S13.38 13.5 12 13.5z" fill="white"/>
+        </svg>
+        <h1>Biz Scraper</h1>
+      </div>
+      <p class="tagline">Extract business info for outreach</p>
+    </header>
+
+    <!-- Tab Navigation -->
+    <nav class="tabs">
+      <button class="tab active" data-tab="single">Single Business</button>
+      <button class="tab" data-tab="bulk">Bulk Extract</button>
+      <button class="tab" data-tab="saved">Saved <span id="savedCount" class="badge">0</span></button>
+    </nav>
+
+    <!-- Single Business Tab -->
+    <section id="tab-single" class="tab-content active">
+      <div class="instructions">
+        <p>Open a business on <strong>Google Maps</strong> and click extract.</p>
+      </div>
+      <button id="extractBtn" class="btn btn-primary btn-full">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 14l4-4m0 0l4-4M6 10L2 6m4 4l4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        Extract Business Info
+      </button>
+
+      <div id="loading" class="loading hidden">
+        <div class="spinner"></div>
+        <span>Extracting data...</span>
+      </div>
+
+      <div id="error" class="error-msg hidden"></div>
+
+      <div id="resultCard" class="result-card hidden">
+        <div class="result-header">
+          <div>
+            <h2 id="bizName" class="biz-name"></h2>
+            <span id="bizCategory" class="biz-category"></span>
+          </div>
+          <div class="rating-badge">
+            <span id="bizRating"></span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#FBBC04"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <span id="bizReviews" class="review-count"></span>
+          </div>
+        </div>
+
+        <div class="info-grid">
+          <div class="info-item" id="addressRow">
+            <div class="info-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5f6368" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div class="info-text">
+              <span class="info-label">Address</span>
+              <span id="bizAddress" class="info-value"></span>
+            </div>
+          </div>
+
+          <div class="info-item" id="phoneRow">
+            <div class="info-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5f6368" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+            </div>
+            <div class="info-text">
+              <span class="info-label">Phone</span>
+              <span id="bizPhone" class="info-value"></span>
+            </div>
+          </div>
+
+          <div class="info-item" id="websiteRow">
+            <div class="info-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5f6368" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+            </div>
+            <div class="info-text">
+              <span class="info-label">Website</span>
+              <a id="bizWebsite" class="info-value link" href="#" target="_blank"></a>
+            </div>
+          </div>
+
+          <div class="info-item" id="hoursRow">
+            <div class="info-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5f6368" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div class="info-text">
+              <span class="info-label">Hours</span>
+              <span id="bizHours" class="info-value"></span>
+            </div>
+          </div>
+
+          <div class="info-item" id="priceRow">
+            <div class="info-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5f6368" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+            </div>
+            <div class="info-text">
+              <span class="info-label">Price Level</span>
+              <span id="bizPrice" class="info-value"></span>
+            </div>
+          </div>
+
+          <div class="info-item" id="coordsRow">
+            <div class="info-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5f6368" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4m0 14v4M1 12h4m14 0h4"/></svg>
+            </div>
+            <div class="info-text">
+              <span class="info-label">Coordinates</span>
+              <span id="bizCoords" class="info-value"></span>
+            </div>
+          </div>
+
+          <div class="info-item" id="descRow">
+            <div class="info-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5f6368" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            </div>
+            <div class="info-text">
+              <span class="info-label">Description</span>
+              <span id="bizDesc" class="info-value"></span>
+            </div>
+          </div>
+
+          <div class="info-item" id="amenitiesRow">
+            <div class="info-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5f6368" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+            </div>
+            <div class="info-text">
+              <span class="info-label">Services / Amenities</span>
+              <div id="bizAmenities" class="tags-container"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="action-buttons">
+          <button id="saveBtn" class="btn btn-secondary">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+            Save
+          </button>
+          <button id="copyBtn" class="btn btn-secondary">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            Copy
+          </button>
+          <button id="csvBtn" class="btn btn-secondary">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            CSV
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bulk Extract Tab -->
+    <section id="tab-bulk" class="tab-content hidden">
+      <div class="instructions">
+        <p>Search for businesses on Google Maps (e.g. "coffee shops in Austin"), then click extract all.</p>
+      </div>
+      <button id="bulkExtractBtn" class="btn btn-primary btn-full">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 4h12M2 8h12M2 12h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        Extract All Results
+      </button>
+
+      <div id="bulkLoading" class="loading hidden">
+        <div class="spinner"></div>
+        <span>Scanning results...</span>
+      </div>
+
+      <div id="bulkError" class="error-msg hidden"></div>
+
+      <div id="bulkResults" class="bulk-results hidden">
+        <div class="bulk-header">
+          <span id="bulkCount">0 businesses found</span>
+          <button id="bulkCsvBtn" class="btn btn-small">Export CSV</button>
+        </div>
+        <div id="bulkList" class="bulk-list"></div>
+      </div>
+    </section>
+
+    <!-- Saved Tab -->
+    <section id="tab-saved" class="tab-content hidden">
+      <div id="savedEmpty" class="instructions">
+        <p>No saved businesses yet. Extract and save businesses to see them here.</p>
+      </div>
+      <div id="savedActions" class="saved-actions hidden">
+        <button id="exportAllCsvBtn" class="btn btn-primary btn-full">Export All as CSV</button>
+        <button id="copyAllBtn" class="btn btn-secondary btn-full" style="margin-top:8px">Copy All as JSON</button>
+        <button id="clearAllBtn" class="btn btn-danger btn-full" style="margin-top:8px">Clear All Saved</button>
+      </div>
+      <div id="savedList" class="bulk-list"></div>
+    </section>
+
+    <!-- Toast -->
+    <div id="toast" class="toast hidden"></div>
+  </div>
+
+  <script src="sidepanel.js"></script>
+</body>
+</html>
